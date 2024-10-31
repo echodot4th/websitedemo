@@ -1,0 +1,311 @@
+<html><head><base href="ai-recommendations.html">
+<title>AI-Powered Recommendations - ECNVHS Library</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Personalized AI-driven book and resource recommendations for university students and faculty">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.0/dist/chart.min.js"></script>
+<style>
+:root {
+  --primary-color: #2C3E50;
+  --secondary-color: #95A5A6;
+  --accent-color: #3498DB;
+  --background-color: #F5F6FA;
+  --text-color: #34495E;
+  --success-color: #2ECC71;
+  --card-background: #FFFFFF;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Open Sans', sans-serif;
+  line-height: 1.6;
+  color: var(--text-color);
+  background-color: var(--background-color);
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+header {
+  background-color: var(--primary-color);
+  color: white;
+  padding: 1rem 0;
+}
+
+nav ul {
+  display: flex;
+  justify-content: space-between;
+  list-style-type: none;
+}
+
+nav ul li a {
+  color: white;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.hero-section {
+  background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+  color: white;
+  padding: 4rem 0;
+  text-align: center;
+}
+
+.recommendation-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  padding: 2rem 0;
+}
+
+.recommendation-card {
+  background-color: var(--card-background);
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.recommendation-card:hover {
+  transform: translateY(-5px);
+}
+
+.accuracy-meter {
+  width: 100%;
+  height: 8px;
+  background-color: #eee;
+  border-radius: 4px;
+  margin: 1rem 0;
+  overflow: hidden;
+}
+
+.accuracy-fill {
+  height: 100%;
+  background-color: var(--success-color);
+  transition: width 0.3s ease;
+}
+
+.ai-features {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  margin: 3rem 0;
+}
+
+.feature-card {
+  background-color: var(--card-background);
+  padding: 2rem;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.feature-icon {
+  width: 64px;
+  height: 64px;
+  margin-bottom: 1rem;
+}
+
+.stats-container {
+  background-color: var(--card-background);
+  padding: 2rem;
+  border-radius: 8px;
+  margin: 2rem 0;
+}
+
+.chart-container {
+  height: 300px;
+  margin: 2rem 0;
+}
+
+.action-button {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  background-color: var(--accent-color);
+  color: white;
+  text-decoration: none;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.action-button:hover {
+  background-color: #2980B9;
+}
+
+@media screen and (max-width: 768px) {
+  nav ul {
+    flex-direction: column;
+  }
+  
+  .ai-features {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+</head>
+<body>
+  <div id="app">
+    <header>
+      <div class="container">
+        <nav>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="catalog.html">Catalog</a></li>
+            <li><a href="services.html">Services</a></li>
+            <li><a href="AIassistant.html">AI Study Assistant</a></li>
+            <li><a href="login.html">Login</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <section class="hero-section">
+      <div class="container">
+        <h1>AI-Powered Resource Recommendations</h1>
+        <p>Discover personalized learning materials tailored to your academic journey</p>
+              </div>
+    </section>
+
+    <main class="container">
+      <section class="ai-features">
+        <div class="feature-card">
+          <svg class="feature-icon" viewBox="0 0 24 24">
+            <path fill="currentColor" d="M12,3L1,9L12,15L21,10.09V17H23V9M5,13.18V17.18L12,21L19,17.18V13.18L12,17L5,13.18Z"/>
+          </svg>
+          <h3>Learning Paths</h3>
+          <p>Our AI analyzes your course load and learning style to create optimized study paths</p>
+        </div>
+
+        <div class="feature-card">
+          <svg class="feature-icon" viewBox="0 0 24 24">
+            <path fill="currentColor" d="M21,16.5C21,16.88 20.79,17.21 20.47,17.38L12.57,21.82C12.41,21.94 12.21,22 12,22C11.79,22 11.59,21.94 11.43,21.82L3.53,17.38C3.21,17.21 3,16.88 3,16.5V7.5C3,7.12 3.21,6.79 3.53,6.62L11.43,2.18C11.59,2.06 11.79,2 12,2C12.21,2 12.41,2.06 12.57,2.18L20.47,6.62C20.79,6.79 21,7.12 21,7.5V16.5M12,4.15L6.04,7.5L12,10.85L17.96,7.5L12,4.15Z"/>
+          </svg>
+          <h3>Adaptive Recommendations</h3>
+          <p>Real-time updates based on your progress and changing academic needs</p>
+        </div>
+
+        <div class="feature-card">
+          <svg class="feature-icon" viewBox="0 0 24 24">
+            <path fill="currentColor" d="M12,3C7.58,3 4,4.79 4,7C4,9.21 7.58,11 12,11C16.42,11 20,9.21 20,7C20,4.79 16.42,3 12,3M4,9V12C4,14.21 7.58,16 12,16C16.42,16 20,14.21 20,12V9C20,11.21 16.42,13 12,13C7.58,13 4,11.21 4,9M4,14V17C4,19.21 7.58,21 12,21C16.42,21 20,19.21 20,17V14C20,16.21 16.42,18 12,18C7.58,18 4,16.21 4,14Z"/>
+          </svg>
+          <h3>Resource Analytics</h3>
+          <p>Detailed insights into your learning patterns and resource utilization</p>
+        </div>
+      </section>
+
+      <section class="recommendation-container">
+        <div class="recommendation-card">
+          <h3>Recently Recommended</h3>
+          <div v-for="recommendation in recommendations" :key="recommendation.id">
+            <h4>{{ recommendation.title }}</h4>
+            <p>{{ recommendation.description }}</p>
+            <div class="accuracy-meter">
+              <div class="accuracy-fill" :style="{ width: recommendation.accuracy + '%' }"></div>
+            </div>
+            <small>{{ recommendation.accuracy }}% match to your profile</small>
+          </div>
+        </div>
+
+        <div class="recommendation-card">
+          <h3>Learning Analytics</h3>
+          <canvas id="learningChart"></canvas>
+        </div>
+      </section>
+
+      <section class="stats-container">
+        <h2>Your Learning Journey</h2>
+        <div class="chart-container">
+          <canvas id="progressChart"></canvas>
+        </div>
+      </section>
+    </main>
+
+    <footer style="background-color: var(--primary-color); color: white; text-align: center; padding: 1rem 0; margin-top: 2rem;">
+      <div class="container">
+        <p>&copy; 2024 ECNVHS Library. All rights reserved.</p>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    new Vue({
+      el: '#app',
+      data: {
+        recommendations: [
+          {
+            id: 1,
+            title: 'Machine Learning Fundamentals',
+            description: 'Essential reading for your AI course',
+            accuracy: 95
+          },
+          {
+            id: 2,
+            title: 'Advanced Database Systems',
+            description: 'Recommended based on your current coursework',
+            accuracy: 88
+          },
+          {
+            id: 3,
+            title: 'Software Architecture Patterns',
+            description: 'Aligns with your career interests',
+            accuracy: 92
+          }
+        ]
+      },
+      mounted() {
+        this.initCharts();
+      },
+      methods: {
+        initCharts() {
+          // Learning Analytics Chart
+          const learningCtx = document.getElementById('learningChart').getContext('2d');
+          new Chart(learningCtx, {
+            type: 'radar',
+            data: {
+              labels: ['Reading', 'Comprehension', 'Practice', 'Application', 'Analysis'],
+              datasets: [{
+                label: 'Your Progress',
+                data: [85, 72, 90, 65, 88],
+                backgroundColor: 'rgba(52, 152, 219, 0.2)',
+                borderColor: 'rgba(52, 152, 219, 1)',
+                pointBackgroundColor: 'rgba(52, 152, 219, 1)'
+              }]
+            }
+          });
+
+          // Progress Chart
+          const progressCtx = document.getElementById('progressChart').getContext('2d');
+          new Chart(progressCtx, {
+            type: 'line',
+            data: {
+              labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5'],
+              datasets: [{
+                label: 'Learning Progress',
+                data: [30, 45, 62, 78, 85],
+                fill: false,
+                borderColor: 'rgba(46, 204, 113, 1)',
+                tension: 0.1
+              }]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false
+            }
+          });
+        }
+      }
+    });
+  </script>
+</body>
+</html>

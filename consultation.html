@@ -1,0 +1,399 @@
+<html><head><base href="consultation.html">
+<title>Research Consultation Services - ECNVHS Library</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Schedule personalized research consultations with expert librarians for guidance on your academic projects.">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.css" rel="stylesheet">
+<style>
+:root {
+ --primary-color: #2E86DE;
+ --secondary-color: #3CB371;
+ --accent-color: #FF4757;
+ --background-color: #F5F6FA;
+ --text-color: #2C3E50;
+ --card-background: #FFFFFF;
+ --success-color: #2ECC71;
+ --warning-color: #F1C40F;
+
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Open Sans', sans-serif;
+  line-height: 1.6;
+  color: var(--text-color);
+  background-color: var(--background-color);
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+header {
+  background-color: var(--primary-color);
+  color: white;
+  padding: 1rem 0;
+}
+
+nav ul {
+  display: flex;
+  justify-content: space-between;
+  list-style-type: none;
+}
+
+nav ul li a {
+  color: white;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  transition: background-color 0.3s ease;
+}
+
+nav ul li a:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.consultation-header {
+  background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+  color: white;
+  padding: 3rem 0;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.consultation-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 2rem;
+  margin: 2rem 0;
+}
+
+.librarian-card {
+  background: var(--card-background);
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: start;
+  gap: 1.5rem;
+}
+
+.librarian-avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background-color: var(--secondary-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 2.5rem;
+}
+
+.librarian-info h3 {
+  margin-bottom: 0.5rem;
+  color: var(--primary-color);
+}
+
+.expertise-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0.5rem 0;
+}
+
+.expertise-tag {
+  background-color: var(--accent-color);
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 15px;
+  font-size: 0.875rem;
+}
+
+.booking-panel {
+  background: var(--card-background);
+  border-radius: 8px;
+  padding: 1.5rem;
+  position: sticky;
+  top: 2rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.booking-form label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: var(--primary-color);
+  font-weight: 600;
+}
+
+.booking-form select,
+.booking-form input,
+.booking-form textarea {
+  width: 100%;
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  border: 1px solid var(--secondary-color);
+  border-radius: 4px;
+  font-family: inherit;
+}
+
+.submit-btn {
+  background-color: var(--accent-color);
+  color: white;
+  border: none;
+  padding: 1rem 2rem;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 100%;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.submit-btn:hover {
+  background-color: #2980B9;
+}
+
+.calendar-widget {
+  margin-top: 2rem;
+}
+
+.stats-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin: 2rem 0;
+}
+
+.stat-box {
+  background: var(--card-background);
+  padding: 1.5rem;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.stat-number {
+  font-size: 2rem;
+  font-weight: bold;
+  color: var(--accent-color);
+}
+
+@media screen and (max-width: 768px) {
+  nav ul {
+    flex-direction: column;
+  }
+  
+  nav ul li {
+    margin-bottom: 0.5rem;
+  }
+
+  .consultation-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .stats-container {
+    grid-template-columns: 1fr;
+  }
+
+  .librarian-card {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .expertise-tags {
+    justify-content: center;
+  }
+}
+</style>
+</head>
+<body>
+  <div id="app">
+    <header>
+      <div class="container">
+        <nav>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="catalog.html">Catalog</a></li>
+            <li><a href="studyspaces.html">Study Spaces</a></li>
+            <li><a href="services.html">Services</a></li>
+            <li><a href="AIassistant.html">AI Study Assistant</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="login.html">Login</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <div class="consultation-header">
+      <div class="container">
+        <h1>Research Consultation Services</h1>
+        <p>Get expert guidance from our specialized librarians for your research projects</p>
+      </div>
+    </div>
+
+    <main class="container">
+      <div class="stats-container">
+        <div class="stat-box">
+          <div class="stat-number">15+</div>
+          <div>Expert Librarians</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-number">98%</div>
+          <div>Satisfaction Rate</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-number">500+</div>
+          <div>Monthly Consultations</div>
+        </div>
+      </div>
+
+      <div class="consultation-grid">
+        <div class="librarians-list">
+          <div class="librarian-card">
+            <div class="librarian-avatar">👩‍🏫</div>
+            <div class="librarian-info">
+              <h3>Dr. Sarah Thompson</h3>
+              <p>Research Services Coordinator</p>
+              <div class="expertise-tags">
+                <span class="expertise-tag">STEM Research</span>
+                <span class="expertise-tag">Data Analysis</span>
+                <span class="expertise-tag">Scientific Writing</span>
+              </div>
+              <p>20+ years of experience in academic research and library sciences. Specializes in STEM research methodologies and scientific writing.</p>
+            </div>
+          </div>
+
+          <div class="librarian-card">
+            <div class="librarian-avatar">👨‍🏫</div>
+            <div class="librarian-info">
+              <h3>Prof. Michael Chen</h3>
+              <p>Digital Resources Specialist</p>
+              <div class="expertise-tags">
+                <span class="expertise-tag">Digital Humanities</span>
+                <span class="expertise-tag">Database Research</span>
+                <span class="expertise-tag">AI Tools</span>
+              </div>
+              <p>Expert in digital research tools and methodologies. Helps students navigate complex digital resources and databases.</p>
+            </div>
+          </div>
+
+          <div class="librarian-card">
+            <div class="librarian-avatar">👩‍🏫</div>
+            <div class="librarian-info">
+              <h3>Dr. Emily Rodriguez</h3>
+              <p>Humanities Research Specialist</p>
+              <div class="expertise-tags">
+                <span class="expertise-tag">Literature Review</span>
+                <span class="expertise-tag">Historical Research</span>
+                <span class="expertise-tag">Citation Management</span>
+              </div>
+              <p>Specialized in humanities research methodologies and archival research. Expert in literature review and academic writing.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="booking-panel">
+          <h2>Schedule a Consultation</h2>
+          <form class="booking-form" @submit.prevent="submitBooking">
+            <label for="consultant">Select Consultant:</label>
+            <select id="consultant" v-model="bookingForm.consultant" required>
+              <option value="">Choose a consultant</option>
+              <option value="sarah">Dr. Sarah Thompson</option>
+              <option value="michael">Prof. Michael Chen</option>
+              <option value="emily">Dr. Emily Rodriguez</option>
+            </select>
+
+            <label for="date">Preferred Date:</label>
+            <input type="date" id="date" v-model="bookingForm.date" required>
+
+            <label for="time">Preferred Time:</label>
+            <select id="time" v-model="bookingForm.time" required>
+              <option value="">Select time slot</option>
+              <option value="9:00">9:00 AM</option>
+              <option value="10:00">10:00 AM</option>
+              <option value="11:00">11:00 AM</option>
+              <option value="13:00">1:00 PM</option>
+              <option value="14:00">2:00 PM</option>
+              <option value="15:00">3:00 PM</option>
+            </select>
+
+            <label for="topic">Research Topic:</label>
+            <textarea id="topic" v-model="bookingForm.topic" rows="3" required></textarea>
+
+            <button type="submit" class="submit-btn">Schedule Consultation</button>
+          </form>
+
+          <div class="calendar-widget">
+            <div id="calendar"></div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer style="background-color: var(--primary-color); color: white; text-align: center; padding: 1rem 0; margin-top: 2rem;">
+      <div class="container">
+        <p>&copy; 2024 ECNVHS Library. All rights reserved.</p>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    new Vue({
+      el: '#app',
+      data: {
+        bookingForm: {
+          consultant: '',
+          date: '',
+          time: '',
+          topic: ''
+        }
+      },
+      methods: {
+        submitBooking() {
+          // Here you would typically send the booking data to your backend
+          console.log('Booking submitted:', this.bookingForm);
+          alert('Thank you! Your consultation request has been submitted. You will receive a confirmation email shortly.');
+          // Reset form
+          this.bookingForm = {
+            consultant: '',
+            date: '',
+            time: '',
+            topic: ''
+          };
+        }
+      },
+      mounted() {
+        // Initialize FullCalendar
+        const calendarEl = document.getElementById('calendar');
+        const calendar = new FullCalendar.Calendar(calendarEl, {
+          initialView: 'dayGridMonth',
+          headerToolbar: {
+            left: 'prev,next today',
+            center: 'title',
+            right: 'dayGridMonth,timeGridWeek'
+          },
+          height: 'auto',
+          selectable: true,
+          selectMirror: true,
+          select: function(arg) {
+            // Handle date selection
+            calendar.unselect();
+          }
+        });
+        calendar.render();
+      }
+    });
+  </script>
+</body>
+</html>

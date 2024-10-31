@@ -1,0 +1,396 @@
+<html><head><base href="AIassistant.html">
+<title>AI Study Assistant - ECNVHS Library</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Access your personalized AI Study Assistant. Get intelligent study recommendations, create custom learning paths, and optimize your academic journey.">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<style>
+:root {
+  --primary-color: #2E86DE;
+  --secondary-color: #3CB371;  
+  --accent-color: #E74C3C;    
+  --background-color: #F5F6FA; 
+  --text-color: #2C3E50;      
+  --card-background: #FFFFFF;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Open Sans', sans-serif;
+  line-height: 1.6;
+  color: var(--text-color);
+  background-color: var(--background-color);
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+header {
+  background-color: var(--primary-color);
+  color: white;
+  padding: 1rem 0;
+}
+
+nav ul {
+  display: flex;
+  justify-content: space-between;
+  list-style-type: none;
+}
+
+nav ul li a {
+  color: white;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  transition: background-color 0.3s ease;
+}
+
+nav ul li a:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.ai-assistant-container {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.sidebar {
+  background-color: var(--card-background);
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.profile-section {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.profile-avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background-color: var(--accent-color);
+  margin: 0 auto 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 2rem;
+}
+
+.study-stats {
+  margin-bottom: 2rem;
+}
+
+.stat-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.chat-interface {
+  background-color: var(--card-background);
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  height: 80vh;
+}
+
+.chat-messages {
+  flex-grow: 1;
+  padding: 1.5rem;
+  overflow-y: auto;
+}
+
+.message {
+  margin-bottom: 1rem;
+  padding: 1rem;
+  border-radius: 8px;
+  max-width: 80%;
+}
+
+.message.user {
+  background-color: var(--accent-color);
+  color: white;
+  margin-left: auto;
+}
+
+.message.ai {
+  background-color: var(--background-color);
+  margin-right: auto;
+}
+
+.chat-input {
+  padding: 1.5rem;
+  border-top: 1px solid var(--secondary-color);
+}
+
+.chat-input form {
+  display: flex;
+  gap: 1rem;
+}
+
+.chat-input input {
+  flex-grow: 1;
+  padding: 0.75rem;
+  border: 1px solid var(--secondary-color);
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.chat-input button {
+  padding: 0.75rem 1.5rem;
+  background-color: var(--accent-color);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.chat-input button:hover {
+  background-color: #2980B9;
+}
+
+.learning-path {
+  background-color: var(--card-background);
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-top: 1rem;
+}
+
+.learning-path-step {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  background-color: var(--background-color);
+  border-radius: 4px;
+}
+
+.step-number {
+  width: 30px;
+  height: 30px;
+  background-color: var(--accent-color);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 1rem;
+}
+
+.recommendation-card {
+  background-color: var(--card-background);
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+@media screen and (max-width: 768px) {
+  .ai-assistant-container {
+    grid-template-columns: 1fr;
+  }
+  
+  nav ul {
+    flex-direction: column;
+  }
+  
+  nav ul li {
+    margin-bottom: 0.5rem;
+  }
+}
+</style>
+</head>
+<body>
+  <div id="app">
+    <header>
+      <div class="container">
+        <nav>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="catalog.html">Catalog</a></li>
+            <li><a href="studyspaces.html">Study Spaces</a></li>
+            <li><a href="services.html">Services</a></li>
+            <li><a href="#">AI Study Assistant</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="login.html">Login</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container">
+      <div class="ai-assistant-container">
+        <aside class="sidebar">
+          <div class="profile-section">
+            <div class="profile-avatar">
+              📚
+            </div>
+            <h2>{{ userData.name }}</h2>
+            <p>{{ userData.major }}</p>
+          </div>
+          
+          <div class="study-stats">
+            <h3>Study Statistics</h3>
+            <div class="stat-item">
+              <span>Study Sessions</span>
+              <span>{{ userData.studySessions }}</span>
+            </div>
+            <div class="stat-item">
+              <span>Topics Covered</span>
+              <span>{{ userData.topicsCovered }}</span>
+            </div>
+            <div class="stat-item">
+              <span>Progress</span>
+              <span>{{ userData.progress }}%</span>
+            </div>
+          </div>
+
+          <div class="current-focus">
+            <h3>Current Focus Areas</h3>
+            <ul>
+              <li v-for="focus in userData.focusAreas" :key="focus">
+                {{ focus }}
+              </li>
+            </ul>
+          </div>
+        </aside>
+
+        <div class="main-content">
+          <div class="chat-interface">
+            <div class="chat-messages" ref="chatMessages">
+              <div v-for="(message, index) in messages" :key="index"
+                   :class="['message', message.type]"
+                   v-html="message.rendered">
+              </div>
+            </div>
+            
+            <div class="chat-input">
+              <form @submit.prevent="sendMessage">
+                <input type="text" v-model="newMessage" 
+                       placeholder="Ask your study assistant anything..."
+                       @keyup.enter="sendMessage">
+                <button type="submit">Send</button>
+              </form>
+            </div>
+          </div>
+
+          <div class="learning-path" v-if="showLearningPath">
+            <h3>Your Personalized Learning Path</h3>
+            <div v-for="(step, index) in learningPath" :key="index"
+                 class="learning-path-step">
+              <div class="step-number">{{ index + 1 }}</div>
+              <div class="step-content">
+                <h4>{{ step.title }}</h4>
+                <p>{{ step.description }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    new Vue({
+      el: '#app',
+      data: {
+        userData: {
+          name: 'User 12143',
+          major: 'Computer Science',
+          studySessions: 24,
+          topicsCovered: 15,
+          progress: 68,
+          focusAreas: [
+            'Data Structures',
+            'Algorithms',
+            'Database Design',
+            'Web Development'
+          ]
+        },
+        messages: [
+          {
+            type: 'ai',
+            content: 'Hello! I\'m your AI Study Assistant. How can I help you today?',
+            rendered: 'Hello! I\'m your AI Study Assistant. How can I help you today?'
+          }
+        ],
+        newMessage: '',
+        showLearningPath: false,
+        learningPath: [
+          {
+            title: 'Foundations of Computer Science',
+            description: 'Start with basic programming concepts and computational thinking'
+          },
+          {
+            title: 'Data Structures Deep Dive',
+            description: 'Master fundamental data structures and their implementations'
+          },
+          {
+            title: 'Algorithm Analysis',
+            description: 'Learn to analyze and optimize algorithmic solutions'
+          }
+        ]
+      },
+      methods: {
+        sendMessage() {
+          if (!this.newMessage.trim()) return;
+          
+          // Add user message
+          this.messages.push({
+            type: 'user',
+            content: this.newMessage,
+            rendered: marked.parse(this.newMessage)
+          });
+
+          // Simulate AI response
+          setTimeout(() => {
+            const response = this.generateAIResponse(this.newMessage);
+            this.messages.push({
+              type: 'ai',
+              content: response,
+              rendered: marked.parse(response)
+            });
+            this.scrollToBottom();
+          }, 1000);
+
+          this.newMessage = '';
+        },
+        generateAIResponse(message) {
+          // Simple response generation logic
+          if (message.toLowerCase().includes('learning path')) {
+            this.showLearningPath = true;
+            return 'I\'ve generated a personalized learning path based on your current progress and goals. You can see it below our chat.';
+          }
+          
+          return 'I understand you\'re interested in ' + message + '. Let me help you with that. What specific aspects would you like to explore?';
+        },
+        scrollToBottom() {
+          this.$nextTick(() => {
+            const container = this.$refs.chatMessages;
+            container.scrollTop = container.scrollHeight;
+          });
+        }
+      },
+      mounted() {
+        this.scrollToBottom();
+      }
+    });
+  </script>
+</body>
+</html>

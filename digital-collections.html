@@ -1,0 +1,381 @@
+<html><head><base href="digital-collections.html">
+<title>Digital Collections - ECNVHS Library</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Access our comprehensive digital collections including academic journals, e-books, historical archives, and multimedia resources.">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+ --primary-color: #2E86DE;
+ --secondary-color: #3CB371;
+ --accent-color: #FF4757;
+ --background-color: #F5F6FA;
+ --text-color: #2C3E50;
+ --card-background: #FFFFFF;
+ --success-color: #2ECC71;
+ --warning-color: #F1C40F;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Open Sans', sans-serif;
+  line-height: 1.6;
+  color: var(--text-color);
+  background-color: var(--background-color);
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+header {
+  background-color: var(--primary-color);
+  color: white;
+  padding: 1rem 0;
+}
+
+nav ul {
+  display: flex;
+  justify-content: space-between;
+  list-style-type: none;
+}
+
+nav ul li a {
+  color: white;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  transition: background-color 0.3s ease;
+}
+
+nav ul li a:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.hero {
+  background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+  color: white;
+  padding: 3rem 0;
+  text-align: center;
+}
+
+.search-section {
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  margin: -2rem auto 2rem;
+  max-width: 800px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.search-bar {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.search-bar input {
+  flex: 1;
+  padding: 0.75rem;
+  border: 2px solid var(--secondary-color);
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.search-bar button {
+  padding: 0.75rem 1.5rem;
+  background-color: var(--accent-color);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.search-bar button:hover {
+  background-color: #2980B9;
+}
+
+.filters {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.filter-select {
+  padding: 0.5rem;
+  border: 1px solid var(--secondary-color);
+  border-radius: 4px;
+  min-width: 150px;
+}
+
+.collections-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  padding: 2rem 0;
+}
+
+.collection-card {
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.collection-card:hover {
+  transform: translateY(-5px);
+}
+
+.collection-image {
+  height: 200px;
+  background-size: cover;
+  background-position: center;
+}
+
+.collection-content {
+  padding: 1.5rem;
+}
+
+.collection-stats {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--background-color);
+}
+
+.stat {
+  text-align: center;
+}
+
+.stat-number {
+  font-weight: bold;
+  color: var(--accent-color);
+}
+
+.loading-animation {
+  width: 50px;
+  height: 50px;
+  border: 3px solid var(--background-color);
+  border-radius: 50%;
+  border-top-color: var(--accent-color);
+  animation: spin 1s linear infinite;
+  margin: 2rem auto;
+}
+
+@keyframes spin {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@media screen and (max-width: 768px) {
+  nav ul {
+    flex-direction: column;
+  }
+  
+  nav ul li {
+    margin-bottom: 0.5rem;
+  }
+
+  .search-bar {
+    flex-direction: column;
+  }
+
+  .filters {
+    flex-direction: column;
+  }
+
+  .filter-select {
+    width: 100%;
+  }
+}
+</style>
+</head>
+<body>
+  <div id="app">
+    <header>
+      <div class="container">
+        <nav>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="catalog.html">Catalog</a></li>
+            <li><a href="studyspaces.html">Study Spaces</a></li>
+            <li><a href="services.html">Services</a></li>
+            <li><a href="AIassistant.html">AI Study Assistant</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="login.html">Login</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <div class="hero">
+      <div class="container">
+        <h1>Digital Collections</h1>
+        <p>Access millions of digital resources anytime, anywhere</p>
+      </div>
+    </div>
+
+    <main class="container">
+      <section class="search-section">
+        <div class="search-bar">
+          <input type="text" placeholder="Search digital collections..." v-model="searchQuery">
+          <button @click="searchCollections">Search</button>
+        </div>
+        <div class="filters">
+          <select class="filter-select" v-model="selectedType">
+            <option value="">Resource Type</option>
+            <option value="ebooks">E-Books</option>
+            <option value="journals">Academic Journals</option>
+            <option value="archives">Historical Archives</option>
+            <option value="multimedia">Multimedia</option>
+          </select>
+          <select class="filter-select" v-model="selectedSubject">
+            <option value="">Subject Area</option>
+            <option value="sciences">Sciences</option>
+            <option value="humanities">Humanities</option>
+            <option value="social">Social Sciences</option>
+            <option value="engineering">Engineering</option>
+          </select>
+          <select class="filter-select" v-model="selectedYear">
+            <option value="">Publication Year</option>
+            <option value="2023">2023</option>
+            <option value="2022">2022</option>
+            <option value="2021">2021</option>
+            <option value="older">Older</option>
+          </select>
+        </div>
+      </section>
+
+      <div class="collections-grid">
+        <div class="collection-card">
+          <div class="collection-image" style="background-image: url('acadjourn.jpg')"></div>
+          <div class="collection-content">
+            <h3>Academic Journal Collection</h3>
+            <p>Access thousands of peer-reviewed journals across all academic disciplines.</p>
+            <div class="collection-stats">
+              <div class="stat">
+                <div class="stat-number">50K+</div>
+                <div class="stat-label">Articles</div>
+              </div>
+              <div class="stat">
+                <div class="stat-number">24/7</div>
+                <div class="stat-label">Access</div>
+              </div>
+              <div class="stat">
+                <div class="stat-number">500+</div>
+                <div class="stat-label">Publishers</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="collection-card">
+          <div class="collection-image" style="background-image: url('ebooks.jpg')"></div>
+          <div class="collection-content">
+            <h3>E-Book Library</h3>
+            <p>Comprehensive collection of academic e-books and textbooks.</p>
+            <div class="collection-stats">
+              <div class="stat">
+                <div class="stat-number">100K+</div>
+                <div class="stat-label">Books</div>
+              </div>
+              <div class="stat">
+                <div class="stat-number">1000+</div>
+                <div class="stat-label">Topics</div>
+              </div>
+              <div class="stat">
+                <div class="stat-number">PDF</div>
+                <div class="stat-label">Format</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="collection-card">
+          <div class="collection-image" style="background-image: url('history.jpg')"></div>
+          <div class="collection-content">
+            <h3>Historical Archives</h3>
+            <p>Digitized historical documents, manuscripts, and rare books.</p>
+            <div class="collection-stats">
+              <div class="stat">
+                <div class="stat-number">25K+</div>
+                <div class="stat-label">Items</div>
+              </div>
+              <div class="stat">
+                <div class="stat-number">200+</div>
+                <div class="stat-label">Years</div>
+              </div>
+              <div class="stat">
+                <div class="stat-number">HD</div>
+                <div class="stat-label">Quality</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="collection-card">
+          <div class="collection-image" style="background-image: url('multimedia.jpg')"></div>
+          <div class="collection-content">
+            <h3>Multimedia Resources</h3>
+            <p>Educational videos, lectures, and interactive learning materials.</p>
+            <div class="collection-stats">
+              <div class="stat">
+                <div class="stat-number">10K+</div>
+                <div class="stat-label">Videos</div>
+              </div>
+              <div class="stat">
+                <div class="stat-number">4K</div>
+                <div class="stat-label">Quality</div>
+              </div>
+              <div class="stat">
+                <div class="stat-number">5K+</div>
+                <div class="stat-label">Hours</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer style="background-color: var(--primary-color); color: white; text-align: center; padding: 1rem 0; margin-top: 2rem;">
+      <div class="container">
+        <p>&copy; 2024 ECNVHS Library. All rights reserved.</p>
+      </div>
+    </footer>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+  <script>
+    new Vue({
+      el: '#app',
+      data: {
+        searchQuery: '',
+        selectedType: '',
+        selectedSubject: '',
+        selectedYear: '',
+        isLoading: false
+      },
+      methods: {
+        searchCollections() {
+          this.isLoading = true;
+          // Simulate API call
+          setTimeout(() => {
+            this.isLoading = false;
+            // Handle search results
+          }, 1000);
+        }
+      }
+    });
+  </script>
+</body>
+</html>

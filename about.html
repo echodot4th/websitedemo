@@ -1,0 +1,354 @@
+<html><head><base href="about.html">
+<title>About - ECNVHS Library</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Learn about our mission, history, and commitment to advancing knowledge through innovative library services and technology.">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary-color: #2E86DE;
+  --secondary-color: #3CB371;  
+  --accent-color: #E74C3C;    
+  --background-color: #F5F6FA; 
+  --text-color: #2C3E50;      
+  --card-background: #FFFFFF;}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Open Sans', sans-serif;
+  line-height: 1.6;
+  color: var(--text-color);
+  background-color: var(--background-color);
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+header {
+  background-color: var(--primary-color);
+  color: white;
+  padding: 1rem 0;
+}
+
+nav ul {
+  display: flex;
+  justify-content: space-between;
+  list-style-type: none;
+}
+
+nav ul li a {
+  color: white;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  transition: background-color 0.3s ease;
+}
+
+nav ul li a:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.about-hero {
+  background-color: var(--primary-color);
+  color: white;
+  padding: 4rem 0;
+  text-align: center;
+}
+
+.about-hero h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.about-content {
+  padding: 3rem 0;
+}
+
+.mission-section, .history-section, .team-section, .stats-section {
+  background-color: var(--card-background);
+  border-radius: 8px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  margin: 2rem 0;
+}
+
+.stat-card {
+  text-align: center;
+  padding: 1.5rem;
+  background-color: var(--background-color);
+  border-radius: 8px;
+}
+
+.stat-number {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: var(--accent-color);
+  margin-bottom: 0.5rem;
+}
+
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.team-member {
+  text-align: center;
+  padding: 1.5rem;
+  background-color: var(--background-color);
+  border-radius: 8px;
+}
+
+.team-member img {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  margin-bottom: 1rem;
+  object-fit: cover;
+}
+
+.timeline {
+  position: relative;
+  padding: 2rem 0;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 2px;
+  height: 100%;
+  background-color: var(--accent-color);
+}
+
+.timeline-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+}
+
+.timeline-content {
+  width: 45%;
+  background-color: var(--background-color);
+  padding: 1.5rem;
+  border-radius: 8px;
+  position: relative;
+}
+
+.timeline-content::before {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background-color: var(--accent-color);
+  border-radius: 50%;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.timeline-item:nth-child(odd) .timeline-content::before {
+  right: -60px;
+}
+
+.timeline-item:nth-child(even) .timeline-content::before {
+  left: -60px;
+}
+
+.timeline-item:nth-child(even) {
+  flex-direction: row-reverse;
+}
+
+footer {
+  background-color: var(--primary-color);
+  color: white;
+  text-align: center;
+  padding: 1rem 0;
+  margin-top: 2rem;
+}
+
+@media screen and (max-width: 768px) {
+  nav ul {
+    flex-direction: column;
+  }
+  
+  nav ul li {
+    margin-bottom: 0.5rem;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .team-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .timeline::before {
+    left: 0;
+  }
+
+  .timeline-item {
+    flex-direction: column;
+  }
+
+  .timeline-content {
+    width: 100%;
+    margin-left: 20px;
+  }
+
+  .timeline-item:nth-child(even) {
+    flex-direction: column;
+  }
+
+  .timeline-content::before {
+    left: -30px !important;
+  }
+}
+</style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <nav>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="catalog.html">Catalog</a></li>
+          <li><a href="studyspaces.html">Study Spaces</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="AIassistant.html">AI Study Assistant</a></li>
+          <li><a href="#">About</a></li>
+          <li><a href="login.html">Login</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <section class="about-hero">
+    <div class="container">
+      <h1>About Our ECNVHS Library</h1>
+      <p>Pioneering the future of academic resources and learning</p>
+    </div>
+  </section>
+
+  <main class="about-content">
+    <div class="container">
+      <section class="mission-section">
+        <h2>Our Vision</h2>
+        <p>We dream of Filipinos
+who passionately love their country
+and whose values and competencies
+enable them to realize their full potential
+and contribute meaningfully to building the nation.
+
+As a learner-centered public institution,
+the Department of Education
+continuously improves itself
+to better serve its stakeholders.</p>
+<h2>Our Mission</h2>
+<p>To protect and promote the right of every Filipino to quality, equitable, culture-based, and complete basic education where:
+
+Students learn in a child-friendly, gender-sensitive, safe, and motivating environment.
+Teachers facilitate learning and constantly nurture every learner.
+Administrators and staff, as stewards of the institution, ensure an enabling and supportive environment for effective learning to happen.
+Family, community, and other stakeholders are actively engaged and share responsibility for developing life-long learners.</p>
+
+      </section>
+
+      <section class="stats-section">
+        <h2>Library by Numbers</h2>
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-number">3000+</div>
+            <p>Physical Books</p>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">8000+</div>
+            <p>Digital Resources</p>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">1500+</div>
+            <p>Active Users</p>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">99.9%</div>
+            <p>System Uptime</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="history-section">
+        <h2>Our History</h2>
+        <div class="timeline">
+          <div class="timeline-item">
+            <div class="timeline-content">
+              <h3>2024</h3>
+              <p>ECNVHS Web-Based Library was Founded</p>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-content">
+              <h3>2024</h3>
+              <p>Moved to current location with expanded facilities and resources</p>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-content">
+              <h3>2024</h3>
+              <p>Launched digital catalog and online resources</p>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-content">
+              <h3>2024</h3>
+              <p>Implemented AI-powered study assistant and RFID tracking system</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="team-section">
+        <h2>Our Team</h2>
+        <div class="team-grid">
+          <div class="team-member">
+            <img alt="" src="images/director.jpg" width="150" height="150">
+            <h3>Member 1</h3>
+            <p>Member</p>
+          </div>
+          <div class="team-member">
+            <img alt="" src="images/digital-head.jpg" width="150" height="150">
+            <h3>Member 2</h3>
+            <p>Member</p>
+          </div>
+          <div class="team-member">
+            <img alt="" src="images/innovation-head.jpg" width="150" height="150">
+            <h3>Member 3</h3>
+            <p>Member</p>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2024 ECNVHS Library. All rights reserved.</p>
+    </div>
+  </footer>
+</body>
+</html>

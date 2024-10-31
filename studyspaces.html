@@ -1,0 +1,453 @@
+<html><head><base href="studyspaces.html">
+<title>Study Spaces - ECNVHS Library</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Reserve study spaces, collaboration rooms, and virtual meeting areas in the University Library">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@fullcalendar/core@5.11.0/main.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@5.11.0/main.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@fullcalendar/timegrid@5.11.0/main.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/@fullcalendar/core@5.11.0/main.min.css" rel="stylesheet">
+<style>
+:root {
+  --primary-color: #2E86DE;   
+  --secondary-color: #3CB371;   
+  --accent-color: #E74C3C;     
+  --background-color: #F5F6FA;  
+  --text-color: #2C3E50;      
+  --card-background: #FFFFFF; 
+  --success-color: #2ECC71;   
+  --warning-color: #F1C40F;    
+  --danger-color: #FF4757;    
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Open Sans', sans-serif;
+  line-height: 1.6;
+  color: var(--text-color);
+  background-color: var(--background-color);
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+header {
+  background-color: var(--primary-color);
+  color: white;
+  padding: 1rem 0;
+}
+
+nav ul {
+  display: flex;
+  justify-content: space-between;
+  list-style-type: none;
+}
+
+nav ul li a {
+  color: white;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  transition: background-color 0.3s ease;
+}
+
+nav ul li a:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.study-spaces-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin: 2rem 0;
+}
+
+.space-card {
+  background: var(--card-background);
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.3s ease;
+}
+
+.space-card:hover {
+  transform: translateY(-5px);
+}
+
+.space-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.space-info {
+  padding: 1.5rem;
+}
+
+.space-status {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.status-available {
+  background-color: rgba(46, 204, 113, 0.2);
+  color: var(--success-color);
+}
+
+.status-occupied {
+  background-color: rgba(231, 76, 60, 0.2);
+  color: var(--danger-color);
+}
+
+.status-maintenance {
+  background-color: rgba(241, 196, 15, 0.2);
+  color: var(--warning-color);
+}
+
+.reserve-btn {
+  display: inline-block;
+  background-color: var(--accent-color);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  text-decoration: none;
+  margin-top: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.reserve-btn:hover {
+  background-color: #2980B9;
+}
+
+.filters {
+  background: var(--card-background);
+  padding: 1rem;
+  border-radius: 8px;
+  margin: 2rem 0;
+}
+
+.filter-group {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.filter-select {
+  padding: 0.5rem;
+  border: 1px solid var(--secondary-color);
+  border-radius: 4px;
+  min-width: 200px;
+}
+
+.calendar-container {
+  background: var(--card-background);
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin: 2rem 0;
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: var(--card-background);
+  padding: 2rem;
+  border-radius: 8px;
+  max-width: 500px;
+  width: 90%;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid var(--secondary-color);
+  border-radius: 4px;
+}
+
+.btn-group {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.btn {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.btn-primary {
+  background-color: var(--accent-color);
+  color: white;
+}
+
+.btn-secondary {
+  background-color: var(--secondary-color);
+  color: white;
+}
+
+@media screen and (max-width: 768px) {
+  nav ul {
+    flex-direction: column;
+  }
+  
+  nav ul li {
+    margin-bottom: 0.5rem;
+  }
+
+  .filter-group {
+    flex-direction: column;
+  }
+
+  .filter-select {
+    width: 100%;
+  }
+}
+</style>
+</head>
+<body>
+  <div id="app">
+    <header>
+      <div class="container">
+        <nav>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="catalog.html">Catalog</a></li>
+            <li><a href="#">Study Spaces</a></li>
+            <li><a href="services.html">Services</a></li>
+            <li><a href="AIassistant.html">AI Study Assistant</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="login.html">Login</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container">
+      <h1>Study Spaces</h1>
+      
+      <section class="filters">
+        <h2>Filters</h2>
+        <div class="filter-group">
+          <select v-model="selectedType" class="filter-select">
+            <option value="">Space Type</option>
+            <option value="individual">Individual Study</option>
+            <option value="group">Group Study</option>
+            <option value="virtual">Virtual Meeting Room</option>
+          </select>
+          
+          <select v-model="selectedFloor" class="filter-select">
+            <option value="">Floor</option>
+            <option value="1">First Floor</option>
+            <option value="2">Second Floor</option>
+            <option value="3">Third Floor</option>
+          </select>
+          
+          <select v-model="selectedCapacity" class="filter-select">
+            <option value="">Capacity</option>
+            <option value="1">1 Person</option>
+            <option value="2-4">2-4 People</option>
+            <option value="5-8">5-8 People</option>
+            <option value="9+">9+ People</option>
+          </select>
+        </div>
+      </section>
+
+      <section class="study-spaces-grid">
+        <div v-for="space in filteredSpaces" :key="space.id" class="space-card">
+          <img :src="space.image" :alt="space.name" class="space-image">
+          <div class="space-info">
+            <span :class="['space-status', 'status-' + space.status]">
+              {{ space.status }}
+            </span>
+            <h3>{{ space.name }}</h3>
+            <p>{{ space.description }}</p>
+            <p><strong>Floor:</strong> {{ space.floor }}</p>
+            <p><strong>Capacity:</strong> {{ space.capacity }}</p>
+            <p><strong>Features:</strong> {{ space.features.join(', ') }}</p>
+            <button @click="openReservationModal(space)" 
+                    class="reserve-btn" 
+                    :disabled="space.status !== 'available'">
+              Reserve Space
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section class="calendar-container">
+        <h2>Availability Calendar</h2>
+        <div id="calendar"></div>
+      </section>
+
+      <!-- Reservation Modal -->
+      <div v-if="showModal" class="modal">
+        <div class="modal-content">
+          <h2>Reserve Study Space</h2>
+          <form @submit.prevent="submitReservation">
+            <div class="form-group">
+              <label>Date</label>
+              <input type="date" v-model="reservation.date" required>
+            </div>
+            <div class="form-group">
+              <label>Start Time</label>
+              <input type="time" v-model="reservation.startTime" required>
+            </div>
+            <div class="form-group">
+              <label>Duration</label>
+              <select v-model="reservation.duration" required>
+                <option value="1">1 hour</option>
+                <option value="2">2 hours</option>
+                <option value="3">3 hours</option>
+                <option value="4">4 hours</option>
+              </select>
+            </div>
+            <div class="btn-group">
+              <button type="submit" class="btn btn-primary">Confirm</button>
+              <button @click="closeModal" class="btn btn-secondary">Cancel</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    new Vue({
+      el: '#app',
+      data: {
+        selectedType: '',
+        selectedFloor: '',
+        selectedCapacity: '',
+        showModal: false,
+        selectedSpace: null,
+        reservation: {
+          date: '',
+          startTime: '',
+          duration: '2'
+        },
+        spaces: [
+          {
+            id: 1,
+            name: 'Quiet Study Room 101',
+            description: 'Individual study room with natural lighting',
+            type: 'individual',
+            floor: '1',
+            capacity: '1',
+            status: 'available',
+            features: ['Desk lamp', 'Power outlet', 'Ergonomic chair'],
+            image: 'quietSS.jpg'
+          },
+          {
+            id: 2,
+            name: 'Collaboration Space 201',
+            description: 'Group study room with whiteboard wall',
+            type: 'group',
+            floor: '2',
+            capacity: '6',
+            status: 'occupied',
+            features: ['Whiteboard', 'LCD Display', 'Conference table'],
+            image: 'collabSS.jpg'
+          },
+          {
+            id: 3,
+            name: 'Virtual Meeting Room 301',
+            description: 'Equipped with video conferencing facilities',
+            type: 'virtual',
+            floor: '3',
+            capacity: '4',
+            status: 'available',
+            features: ['Video conferencing', 'Sound isolation', 'High-speed internet'],
+            image: 'conferenceSS.jpg'
+          }
+        ]
+      },
+      computed: {
+        filteredSpaces() {
+          return this.spaces.filter(space => {
+            if (this.selectedType && space.type !== this.selectedType) return false;
+            if (this.selectedFloor && space.floor !== this.selectedFloor) return false;
+            if (this.selectedCapacity) {
+              // Add capacity filtering logic here
+              return true;
+            }
+            return true;
+          });
+        }
+      },
+      methods: {
+        openReservationModal(space) {
+          this.selectedSpace = space;
+          this.showModal = true;
+        },
+        closeModal() {
+          this.showModal = false;
+          this.selectedSpace = null;
+        },
+        submitReservation() {
+          // Add reservation submission logic here
+          console.log('Reservation submitted:', {
+            space: this.selectedSpace,
+            ...this.reservation
+          });
+          this.closeModal();
+        },
+        initializeCalendar() {
+          const calendarEl = document.getElementById('calendar');
+          const calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'timeGridWeek',
+            headerToolbar: {
+              left: 'prev,next today',
+              center: 'title',
+              right: 'dayGridMonth,timeGridWeek,timeGridDay'
+            },
+            events: [
+              // Add sample events here
+            ]
+          });
+          calendar.render();
+        }
+      },
+      mounted() {
+        this.initializeCalendar();
+      }
+    });
+  </script>
+</body>
+</html>

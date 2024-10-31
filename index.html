@@ -1,0 +1,331 @@
+<html><head><base href="index.html">
+<title>ECNVHS Library</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Welcome to the ECNVHS Library. Access our vast collection, AI-powered study assistant, and cutting-edge library services.">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
+<style>
+:root {
+  --primary-color: #2E86DE;
+  --secondary-color: #3CB371;  
+  --accent-color: #E74C3C;    
+  --background-color: #F5F6FA; 
+  --text-color: #2C3E50;      
+  --card-background: #FFFFFF; 
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Open Sans', sans-serif;
+  line-height: 1.6;
+  color: var(--text-color);
+  background-color: var(--background-color);
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+header {
+  background-color: var(--primary-color);
+  color: white;
+  padding: 1rem 0;
+}
+
+nav ul {
+  display: flex;
+  justify-content: space-between;
+  list-style-type: none;
+}
+
+nav ul li a {
+  color: white;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  transition: background-color 0.3s ease;
+}
+
+nav ul li a:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+main {
+  padding: 2rem 0;
+}
+
+h1, h2, h3 {
+  font-family: 'Roboto', sans-serif;
+  margin-bottom: 1rem;
+}
+
+.hero {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('library-background.jpg');
+  background-size: cover;
+  background-position: center;
+  color: white;
+  text-align: center;
+  padding: 4rem 0;
+  margin-bottom: 2rem;
+}
+
+.hero h1 {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.hero p {
+  font-size: 1.2rem;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.search-container {
+  margin-top: 2rem;
+}
+
+.search-input {
+  width: 60%;
+  padding: 0.75rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 4px 0 0 4px;
+}
+
+.search-button {
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  background-color: var(--accent-color);
+  color: white;
+  border: none;
+  border-radius: 0 4px 4px 0;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.search-button:hover {
+  background-color: #2980B9;
+}
+
+.features {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+}
+
+.feature-card {
+  flex-basis: calc(33.333% - 1rem);
+  background-color: var(--card-background);
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+  transition: transform 0.3s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-5px);
+}
+
+.feature-card h3 {
+  color: var(--accent-color);
+}
+
+.quick-links {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+}
+
+.quick-link {
+  flex-basis: calc(25% - 1rem);
+  background-color: var(--card-background);
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+  text-align: center;
+  transition: background-color 0.3s ease;
+}
+
+.quick-link:hover {
+  background-color: var(--accent-color);
+}
+
+.quick-link:hover a {
+  color: white;
+}
+
+.quick-link a {
+  color: var(--primary-color);
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.news-events {
+  background-color: var(--card-background);
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.news-events h2 {
+  margin-bottom: 1rem;
+}
+
+.news-item, .event-item {
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--secondary-color);
+}
+
+.news-item:last-child, .event-item:last-child {
+  border-bottom: none;
+}
+
+footer {
+  background-color: var(--primary-color);
+  color: white;
+  text-align: center;
+  padding: 1rem 0;
+  margin-top: 2rem;
+}
+
+@media screen and (max-width: 768px) {
+  nav ul {
+    flex-direction: column;
+  }
+  
+  nav ul li {
+    margin-bottom: 0.5rem;
+  }
+
+  .features, .quick-links {
+    flex-direction: column;
+  }
+
+  .feature-card, .quick-link {
+    flex-basis: 100%;
+  }
+
+  .search-input {
+    width: 100%;
+    border-radius: 4px;
+    margin-bottom: 0.5rem;
+  }
+
+  .search-button {
+    width: 100%;
+    border-radius: 4px;
+  }
+}
+</style>
+</head>
+<body>
+  <div id="app">
+    <header>
+      <div class="container">
+        <nav>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="catalog.html">Catalog</a></li>
+            <li><a href="studyspaces.html">Study Spaces</a></li>
+            <li><a href="services.html">Services</a></li>
+            <li><a href="AIassistant.html">AI Study Assistant</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="login.html">Login</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="container">
+          <h1>Welcome to the ECNVHS Library</h1>
+          <p>Discover our vast collection of resources and cutting-edge services to enhance your learning experience.</p>
+          <div class="search-container">
+            <input type="text" class="search-input" placeholder="Search for books, articles, or resources...">
+            <button class="search-button">Search</button>
+          </div>
+        </div>
+      </section>
+
+      <div class="container">
+        <section class="features">
+          <div class="feature-card">
+            <h3>AI-Powered Study Assistant</h3>
+            <p>Get personalized learning recommendations and study paths tailored to your academic needs.</p>
+          </div>
+          <div class="feature-card">
+            <h3>RFID Resource Tracking</h3>
+            <p>Easily locate and manage library resources with our state-of-the-art RFID tracking system.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Virtual Study Rooms</h3>
+            <p>Collaborate with peers in our online study spaces, equipped with shared whiteboards and video conferencing.</p>
+          </div>
+        </section>
+
+        <section class="quick-links">
+          <div class="quick-link">
+            <a href="catalog.html">Browse Catalog</a>
+          </div>
+          <div class="quick-link">
+            <a href="studyspaces.html">Reserve Study Space</a>
+          </div>
+          <div class="quick-link">
+            <a href="AIassistant.html">Get AI Recommendations</a>
+          </div>
+          <div class="quick-link">
+            <a href="services.html">Explore Services</a>
+          </div>
+        </section>
+
+        <section class="news-events">
+          <h2>News & Events</h2>
+          <div class="news-item">
+            <h3>New AI-Powered Study Tools Available</h3>
+            <p>Explore our latest machine learning-driven study aids to boost your academic performance.</p>
+          </div>
+          <div class="event-item">
+            <h3>Workshop: Mastering Library Resources</h3>
+            <p>Join us on May 15th for a comprehensive guide to utilizing the library's digital and physical resources effectively.</p>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <footer>
+      <div class="container">
+        <p>&copy; 2024 ECNVHS Library. All rights reserved.</p>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    new Vue({
+      el: '#app',
+      data: {
+        //
+      },
+      methods: {
+        // 
+      },
+      mounted() {
+        // 
+      }
+    });
+  </script>
+</body>
+</html>
